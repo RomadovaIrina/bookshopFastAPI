@@ -1,12 +1,9 @@
-import time
 from typing import Dict
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from passlib.context import CryptContext
 
 from datetime import datetime, timedelta
-
-from pydantic import BaseModel
 
 ACESS_TOKEN_EXPIRE_TIME_MINS = 60 * 24 #через сутки токен прератится в тыкву
 
@@ -20,9 +17,6 @@ bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated = "auto")
 
 oath_bearer = OAuth2PasswordBearer(tokenUrl="api/v1/token")
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
 
 
 def create_token(data: dict, expire_delta: timedelta):

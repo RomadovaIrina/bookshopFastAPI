@@ -1,15 +1,14 @@
 
-from datetime import timedelta, datetime
+from datetime import timedelta
 from typing import Annotated
-from pydantic import BaseModel
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, status
 import jwt
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.auth.auth import ACESS_TOKEN_EXPIRE_TIME_MINS, Token, check_password, create_token, oath_bearer, ALGORITHM, JWT_SECRET
+from src.auth.auth import ACESS_TOKEN_EXPIRE_TIME_MINS,check_password, create_token, oath_bearer, ALGORITHM, JWT_SECRET
 from src.configurations import get_async_session
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from passlib.context import CryptContext
+from fastapi.security import OAuth2PasswordRequestForm
+from src.schemas.token import Token
 
 from src.models.seller import Seller
 

@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy import select
 from src.auth.auth import hash_password
 from src.models.seller import Seller
-from icecream import ic
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.configurations import get_async_session
@@ -92,7 +91,11 @@ async def update_seller(
     session: DBSession
 ):
     query = select(Seller).filter(Seller.id == seller_id)
-    result = await session.execute(query)
+    result = await session.execute(
+        select(Seller)
+        .options(selectinload(Seller.seller_books))
+        .where(Seller.id == seller_id)
+    )
     seller = result.scalar_one_or_none()
     if not seller:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -107,7 +110,8 @@ async def update_seller(
     
 
     await session.commit()
-    
+
+    await session.refresh(seller)
     return ReturnedSeller(
         id=seller.id,
         first_name=seller.first_name,

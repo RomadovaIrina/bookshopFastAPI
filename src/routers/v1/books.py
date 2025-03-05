@@ -1,8 +1,3 @@
-# Для импорта из корневого модуля
-# import sys
-# sys.path.append("..")
-# from main import app
-
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy import select
@@ -10,7 +5,6 @@ from src.models.books import Book
 from src.models.seller import Seller
 from src.routers.v1.token import get_current_seller
 from src.schemas import IncomingBook, ReturnedAllbooks, ReturnedBook
-from icecream import ic
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.configurations import get_async_session
 from src.schemas.books import UpdateBook
@@ -85,7 +79,7 @@ async def delete_book(
     if not deleted_book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
-    
+
     if deleted_book.seller_id != current_seller.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
     
