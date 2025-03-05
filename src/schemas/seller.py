@@ -1,6 +1,4 @@
-from typing import Optional
-from pydantic import field_validator,\
-    field_serializer, BaseModel, EmailStr, Field, model_serializer
+from pydantic import field_serializer, BaseModel, EmailStr, Field, model_serializer
 from pydantic_core import PydanticCustomError
 from .books import ReturnedBook
 
