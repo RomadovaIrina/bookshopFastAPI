@@ -61,16 +61,13 @@ async def db_session():
 
 @pytest_asyncio.fixture(scope="function", autouse=True)
 async def cleanup_db(db_session):
-    yield  # Все тесты выполняются до этого момента
+    yield 
     
-    # Очищаем данные с помощью ORM
     try:
-        # Удаляем все книги
         books = await db_session.execute(select(Book))
         for book in books.scalars():
             await db_session.delete(book)
         
-        # Удаляем всех продавцов
         sellers = await db_session.execute(select(Seller))
         for seller in sellers.scalars():
             await db_session.delete(seller)

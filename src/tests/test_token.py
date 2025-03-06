@@ -1,8 +1,9 @@
 from httpx import AsyncClient
 import pytest
 from fastapi import HTTPException, status
-from jose import jwt
+import jwt
 from datetime import datetime, timedelta
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from src.auth.auth import hash_password
 from src.models.seller import Seller
